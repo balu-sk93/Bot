@@ -3,10 +3,12 @@
  */
 package com.bot.config;
 
-import org.telegram.telegrambots.TelegramApiException;
+
 import org.telegram.telegrambots.TelegramBotsApi;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 import com.bot.handler.BotHandler;
+
 
 /**
  * @author Balu S
