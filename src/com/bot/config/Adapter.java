@@ -20,9 +20,10 @@ public class Adapter {
   
   
   public void registerBot() {
-    TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
+    TelegramBotsApi telegramBotsApi = null;
     try {
         ApiContextInitializer.init();
+        telegramBotsApi = new TelegramBotsApi();
         telegramBotsApi.registerBot(new BotHandler());
     } catch (TelegramApiException e) {
         System.out.println("Error : -> " + e.getMessage());
