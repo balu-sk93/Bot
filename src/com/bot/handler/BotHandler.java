@@ -1,5 +1,7 @@
 package com.bot.handler;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
@@ -14,6 +16,8 @@ import com.bot.config.BotConfig;
 
 public class BotHandler extends TelegramLongPollingBot {
 
+  
+  private static Logger logger = LogManager.getLogger(BotHandler.class);
 
   public String getBotUsername() {
     return BotConfig.USERNAME;
@@ -30,14 +34,15 @@ public class BotHandler extends TelegramLongPollingBot {
       String inputText;
       SendMessage sendMessageRequest = new SendMessage();
       String outputText = null;
+      logger.info("Chat ID : "+message.getChatId());
       try {
         if(message.hasText()){
           sendMessageRequest.setChatId(message.getChatId().toString());
           sendMessageRequest.enableHtml(true);
           inputText = message.getText();
-          System.out.println("Input : "+inputText);
+          logger.info("Input : "+inputText);
           outputText = new ApiHandler().getApiResponse(inputText);
-          System.out.println("Output : "+outputText);
+          logger.info("Output : "+outputText);
           sendMessageRequest.setText(outputText);
           sendMessage(sendMessageRequest);
         }
