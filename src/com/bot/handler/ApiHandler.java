@@ -1,6 +1,5 @@
 package com.bot.handler;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,53 +13,51 @@ import ai.api.model.AIResponse;
 /**
  * @author Balu S
  * @since Jul 18, 2017
-**/
+ **/
 
 public class ApiHandler {
-    
-    private static Logger logger = LogManager.getLogger(ApiHandler.class);
-  
-    public String getApiResponse(String queryString) {
 
-        String queryResponse = null;
+  private static Logger logger = LogManager.getLogger(ApiHandler.class);
 
-        try {
+  public String getApiResponse(String queryString) {
 
-            AIConfiguration configuration = new AIConfiguration(BotConfig.CLIENT_ACCESS_TOKEN);
+    String queryResponse = null;
 
-            AIDataService dataService = new AIDataService(configuration);
+    try {
 
-                    try {
-                        AIRequest request = new AIRequest(queryString);
+      AIConfiguration configuration = new AIConfiguration(
+          BotConfig.CLIENT_ACCESS_TOKEN);
 
-                        AIResponse response = dataService.request(request);
-                        
-                        logger.info("API Response : "+response.toString());
+      AIDataService dataService = new AIDataService(configuration);
 
-                        if (response.getStatus().getCode() == 200) {
-                            queryResponse = response.getResult().getFulfillment().getSpeech();
-                        } else {
-                            queryResponse = response.getStatus().getErrorDetails();
-                        }
-                        
-                        if (queryResponse == null || queryResponse.equalsIgnoreCase("")) {
-                          queryResponse = "Sorry No Response From AI ";
-                        }
-                          
-                          
-                          
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+      try {
+        AIRequest request = new AIRequest(queryString);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            queryResponse = "Error Occured!";
+        AIResponse response = dataService.request(request);
+
+        logger.info("API Response : " + response.toString());
+
+        if (response.getStatus().getCode() == 200) {
+          queryResponse = response.getResult().getFulfillment().getSpeech();
+        } else {
+          queryResponse = response.getStatus().getErrorDetails();
         }
 
-        return queryResponse;
-    
+        if (queryResponse == null || queryResponse.equalsIgnoreCase("")) {
+          queryResponse = "Sorry No Response From AI ";
+        }
+
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      queryResponse = "Error Occured!";
+    }
+
+    return queryResponse;
+
   }
-  
-  
+
 }
